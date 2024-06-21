@@ -1,19 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import useAuthFetch from '../hooks/useAuthFetch';
 import UserGrid from './UserGrid';
+import { Box, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
+import { User } from '../models/user';
 
-interface Role {
-    id: number;
-    name: string;
-  }
-  
-  interface User {
-    id: number;
-    name: string;
-    email: string;
-    roles: Role[];
-  }
-  
 
 const UserList: React.FC = () => {
   const { data, loading, error } = useAuthFetch(`${process.env.REACT_APP_BACKEND_URL}/users`);
@@ -25,8 +15,22 @@ const UserList: React.FC = () => {
     }
   }, [data]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (loading) {
+    return (
+      <Box textAlign="center" mt="20">
+        <Spinner size="xl" />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert status="error" mt="20">
+        <AlertIcon />
+        {error.message}
+      </Alert>
+    );
+  }
 
   return <UserGrid users={users} />;
 };

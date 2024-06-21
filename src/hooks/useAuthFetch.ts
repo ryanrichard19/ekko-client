@@ -1,16 +1,7 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { User } from '../models/user';
 
-interface Role {
-  id: number;
-  name: string;
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  roles: Role[];
-}
 
 const useAuthFetch = (url: string) => {
   const [data, setData] = useState<User[] | null>(null);
@@ -20,26 +11,15 @@ const useAuthFetch = (url: string) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(url, {
+        const response = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          const result = await response.json();
-          setData(result);
-        } else {
-          const text = await response.text();
-          throw new Error(`Unexpected content type: ${contentType}. Response: ${text}`);
-        }
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          setError(error);
+        setData(response.data);
+      } catch (error: any) {
+        if (axios.isAxiosError(error)) {
+          setError(new Error(error.response?.data?.message || 'An error occurred while fetching data'));
         } else {
           setError(new Error('An unknown error occurred'));
         }

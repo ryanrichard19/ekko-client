@@ -1,49 +1,70 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Table, Thead, Tbody, Tr, Th, Td, Box, Badge, Button, Flex } from '@chakra-ui/react';
+import { User } from '../models/user';
+import MenuBar from './MenuBar';
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  roles: { id: number; name: string }[];
-}
+
+
 
 interface UserGridProps {
   users: User[];
 }
 
+
 const UserGrid: React.FC<UserGridProps> = ({ users }) => {
+  function handleDelete(id: number) {
+    // Add delete logic here
+  }
+
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white shadow-md rounded-lg">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="py-2 px-4 text-left">Name</th>
-            <th className="py-2 px-4 text-left">Email</th>
-            <th className="py-2 px-4 text-left">Roles</th>
-            <th className="py-2 px-4 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user.id} className="border-t">
-              <td className="py-2 px-4">{user.name}</td>
-              <td className="py-2 px-4">{user.email}</td>
-              <td className="py-2 px-4">
-                {user.roles.map(role => (
-                  <span key={role.id} className="inline-block bg-gray-100 px-2 py-1 text-sm font-semibold text-gray-700 rounded-md mr-1">
-                    {role.name}
-                  </span>
-                ))}
-              </td>
-              <td className="py-2 px-4">
-                <Link to={`/users/${user.id}`} className="text-blue-500 hover:underline">View Details</Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Box>
+      <MenuBar />
+      <Box p="4">
+        <Flex justify="space-between" align="center" mb="4">
+          <Box as="h1" fontSize="2xl" fontWeight="bold">User List</Box>
+          <Button as={Link} to="/users/new" colorScheme="teal">Add New User</Button>
+        </Flex>
+        <Box overflowX="auto">
+          <Table variant="simple" colorScheme="teal">
+            <Thead>
+              <Tr>
+                <Th>Name</Th>
+                <Th>Email</Th>
+                <Th>Roles</Th>
+                <Th>Actions</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {users.map((user) => (
+                <Tr key={user.id}>
+                  <Td>{user.name}</Td>
+                  <Td>{user.email}</Td>
+                  <Td>
+                    {user.roles.map((role) => (
+                      <Badge key={role.id} colorScheme="green" mr="1">
+                        {role.name}
+                      </Badge>
+                    ))}
+                  </Td>
+                  <Td>
+                    <Button as={Link} to={`/users/${user.id}`} colorScheme="blue" size="sm" mr="2">
+                      View Details
+                    </Button>
+                    <Button as={Link} to={`/users/${user.id}/edit`} colorScheme="yellow" size="sm" mr="2">
+                      Edit
+                    </Button>
+                    <Button colorScheme="red" size="sm" onClick={() => handleDelete(user.id)}>
+                      Delete
+                    </Button>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

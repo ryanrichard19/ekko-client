@@ -1,6 +1,7 @@
-// src/pages/Home.tsx
 import React from 'react';
 import useFetch from '../hooks/useFetch';
+import MenuBar from '../components/MenuBar';
+import { Box, Heading, Text } from '@chakra-ui/react';
 
 const Home: React.FC = () => {
   const { data, loading, error } = useFetch(`${process.env.REACT_APP_BACKEND_URL}/health`);
@@ -12,9 +13,13 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>Health Status: {data?.status}</h1>
-    </div>
+    <>
+      <MenuBar />
+      <Box p="4">
+        <Heading as="h1">Health Status</Heading>
+        <Text>Status: {data?.status}</Text>
+      </Box>
+    </>
   );
 };
 
