@@ -1,5 +1,6 @@
 import BaseService from "./baseService";
 import { User } from "../models/user";
+import { UserCreateDto } from "../models/usercreateDto";
 
 class UserService extends BaseService {
   constructor() {
@@ -41,6 +42,16 @@ class UserService extends BaseService {
       await this.api.delete(`/users/${id}`);
     } catch (error) {
       console.error("Error deleting user", error);
+      throw error;
+    }
+  }
+
+  async createUser(userData: UserCreateDto): Promise<User> {
+    try {
+      const response = await this.api.post("/users", userData);
+      return response.data;
+    } catch (error) {
+      console.error("Error creating user", error);
       throw error;
     }
   }

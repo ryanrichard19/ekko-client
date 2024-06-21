@@ -1,16 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Table, Thead, Tbody, Tr, Th, Td, Box, Badge, Button, Flex } from '@chakra-ui/react';
-import { User } from '../models/user';
-import MenuBar from './MenuBar';
-
-
-
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Box,
+  Badge,
+  Button,
+  Flex,
+} from "@chakra-ui/react";
+import { User } from "../models/user";
+import MenuBar from "./MenuBar";
 
 interface UserGridProps {
   users: User[];
 }
-
 
 const UserGrid: React.FC<UserGridProps> = ({ users }) => {
   function handleDelete(id: number) {
@@ -22,8 +29,12 @@ const UserGrid: React.FC<UserGridProps> = ({ users }) => {
       <MenuBar />
       <Box p="4">
         <Flex justify="space-between" align="center" mb="4">
-          <Box as="h1" fontSize="2xl" fontWeight="bold">User List</Box>
-          <Button as={Link} to="/users/new" colorScheme="teal">Add New User</Button>
+          <Box as="h1" fontSize="2xl" fontWeight="bold">
+            User List
+          </Box>
+          <Button as={Link} to="/users/new" colorScheme="teal" mb="4">
+            Add New User
+          </Button>
         </Flex>
         <Box overflowX="auto">
           <Table variant="simple" colorScheme="teal">
@@ -48,13 +59,29 @@ const UserGrid: React.FC<UserGridProps> = ({ users }) => {
                     ))}
                   </Td>
                   <Td>
-                    <Button as={Link} to={`/users/${user.id}`} colorScheme="blue" size="sm" mr="2">
+                    <Button
+                      as={Link}
+                      to={`/users/${user.id}`}
+                      colorScheme="blue"
+                      size="sm"
+                      mr="2"
+                    >
                       View Details
                     </Button>
-                    <Button as={Link} to={`/users/${user.id}/edit`} colorScheme="yellow" size="sm" mr="2">
+                    <Button
+                      as={Link}
+                      to={`/users/${user.id}/edit`}
+                      colorScheme="yellow"
+                      size="sm"
+                      mr="2"
+                    >
                       Edit
                     </Button>
-                    <Button colorScheme="red" size="sm" onClick={() => handleDelete(user.id)}>
+                    <Button
+                      colorScheme="red"
+                      size="sm"
+                      onClick={() => handleDelete(user.id)}
+                    >
                       Delete
                     </Button>
                   </Td>

@@ -6,6 +6,7 @@ import UserList from './components/UserList';
 import UserDetail from './components/UserDetail';
 import RoleList from './components/RoleList';
 import RoleDetail from './components/RoleDetail';
+import AddUserForm from './components/AddUserForm';
 
 
 
@@ -14,12 +15,14 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/login" element={<LoginForm />} />
-        <Route  path="/" element={<Home />} />
+        <Route  path="/home" element={<Home />} />
+        <Route path="/users/new" element={<AddUserForm />} /> {/* Add this route before the users list route */}
         <Route path="/users" element={<UserList />} />
         <Route path="/users/:id" element={<UserDetail />} />
         <Route path="/roles" element={<RoleList />} />
         <Route path="/roles/:id" element={<RoleDetail />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route  path="/" element={<Home />} />
+
 
       </Routes>
     </Router>
